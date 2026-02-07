@@ -1,19 +1,101 @@
 
 <style>
+ 
+  main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 5px 0 ;
+    margin: 0;
+  }
+
+  .heading{
+    font-size: 7vw;
+    margin: 20px 0;
+  }
+
+  section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .quote{
+    font-style: italic;
+    margin: 2vh 0;
+    max-width: 800px;
+    text-align: center;
+  }
+
+  .countdown {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+
+    span {
+      margin: 0;
+      border: 1px solid #ccc;
+      padding: 5px 15px;
+    }
+  }
+
+  form{
+    width: calc(100% - 24px);
+    max-width: 800px;
+  }
+
+  input {
+    display: block;
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 1em;
+    width: 100%;
+    box-sizing: border-box;
+    
+  }
+
+  label {
+    font-weight: bold;
+    margin-top: 20px;
+    position: relative;
+    top: 20px;
+    left: 10px;
+    background-color: #fff;
+    padding: 0 5px;
+  }
+
+  @media screen and (max-width: 300px) {
+    .countdown {
+      font-size: 8vw;
+
+      span{
+        padding: 5px 4vw;
+      }
+    }
+  }
 
 </style>
 
 <main>
   <header><img src="/logo_nc 1.png" alt="Natural Cycles"></header>
   <section>
-    <h1>Countdown App</h1>
-    <div><p>Insert quote here plsss</p></div>
+    <h1 class="heading">Countdown App for {{ title() }}</h1>
+    <div class="countdown">
+      <span>{{ countdown().hours }}h</span>
+      <span>{{ countdown().minutes }}m</span>
+      <span>{{ countdown().seconds }}s</span></div>
+    <div class="quote"><p>{{ quote() || 'Loading...'   }}</p></div>
     <form>
       <label for="title">Title</label>
-      <input name="title" id="title" />
+      <input name="title" id="title" (change)="onTitleChange($event)"/>
 
       <label for="date">Date</label>
-      <input type="date" name="date" id="date" />
+      <input type="date" name="date" id="date" (change)="onDateChange($event)"/>
 
     </form>
   </section>
