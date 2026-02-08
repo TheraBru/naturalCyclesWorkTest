@@ -12,15 +12,21 @@ import { from } from 'rxjs';
 })
 
 export class App {
-  title = signal('countdown');
-  countdown = signal({ seconds: 0, minutes: 0, hours: 0 });
+  title = signal('');
+  countdown = signal({ seconds: 0, minutes: 0, hours: 0, days: 0 });
   quote = toSignal(from(quoteFetcher()), { initialValue: null });
   selectedDate = signal<Date | null>(null);
 
   private intervalId?: number;
+  private readonly STORAGE_TITLE = 'nc_title';
+  private readonly STORAGE_DATE = 'nc_selectedDate';
 
+  // TODO: Fix bug where picking a new date updates countdown to day prior
   millisecondsToFormat(ms: number) {
     let seconds = ms / 1000;
+
+    const days = Math.trunc(seconds / 86400);
+    seconds = seconds % 86400;
 
     const hours = Math.trunc(seconds / 3600);
     seconds = seconds % 3600;
@@ -29,6 +35,7 @@ export class App {
     seconds = seconds % 60;
 
     return { 
+      days: days,
       hours: hours, 
       minutes: minutes, 
       seconds: Math.trunc(seconds) 
@@ -36,6 +43,19 @@ export class App {
   }
 
   constructor() {
+    // restore persisted values
+    try {
+      const savedTitle = localStorage.getItem(this.STORAGE_TITLE);
+      if (savedTitle) this.title.set(savedTitle);
+
+      const savedDate = localStorage.getItem(this.STORAGE_DATE);
+      if (savedDate) {
+        const parsed = new Date(savedDate);
+        if (!isNaN(parsed.getTime())) this.selectedDate.set(parsed);
+      }
+    } catch (e) {
+      // ignore localStorage errors (e.g., privacy mode)
+    }
     this.intervalId = window.setInterval(() => {
       const selection = this.selectedDate();
 
@@ -52,6 +72,7 @@ export class App {
   onTitleChange(event: Event) {
     const inputElement = event.target as HTMLInputElement;
     this.title.set(inputElement.value);
+    try { localStorage.setItem(this.STORAGE_TITLE, inputElement.value); } catch {}
   }
 
   onDateChange(event: Event) {
@@ -60,11 +81,17 @@ export class App {
     const selected = new Date(inputElement.value + 'T00:00:00');
     
     this.selectedDate.set(selected);
+    try { localStorage.setItem(this.STORAGE_DATE, selected.toISOString()); } catch {}
     
     const timeDifference = selected.getTime() - currentDate.getTime();
     const formattedTimeDifference = this.millisecondsToFormat(timeDifference);
     
     this.countdown.set(formattedTimeDifference);
+  }
+
+  get selectedDateIso(): string {
+    const sd = this.selectedDate();
+    return sd ? sd.toISOString().slice(0,10) : '';
   }
 
   ngOnDestroy(): void {
