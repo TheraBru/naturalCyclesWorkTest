@@ -4,6 +4,8 @@
 2. Withing the root folder run `npm i` to install dependencies. Make sure you have node and angular installed.
 3. Run application with command `ng serve`.
 
+Link to published application: https://ncworktestbruzell.netlify.app/
+
 ## :eyes: Improvement suggestions and discussion
 
 - There are a few things I would have wanted to improve before release. One major part is connected to accessibility. As of now I added no ARIA to the countdown so a screenreader will not alert user of changes. The reason why I didn't add this change is because it is better to not use ARIA at all than to use it incorrectly and when it comes to countdowns it is a tricky line to walk. You want the user to be aware of the ticking no matter if they have full vision or not, but you also don't want to disrupt their flow by alerting continously. Had this been an actual product it would have been a good idea to experiment a bit to find the best ARIA behavior.
