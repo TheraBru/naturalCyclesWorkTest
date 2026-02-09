@@ -12,7 +12,7 @@
 
 - The solution with the scaling heading works for most inputs, especially the kinds one might expect from an actual user. But there are a few edge cases where the text will either be smaller or wrap. This is because the solution is dependant on the average width of a letter. Some letters however are smaller (like i and l) and some letters are wider (like m and w) this means that inputs that contains an unnatural amount of either of these letters will cause a breaking behavior. One might suggest either living with this issue (it is after all an extreme edge case) or taking the type of characters into account in the calculation as well.
 
-- A decision that was made in the creation of this app was to add the quote for wider (and landscape) screens even though the Figma design seemed to count on it being absent. Had these been a real product I would have brought forward the question why this difference between the designs existed. For this assignment I took for granted that it was not on purpose and opted to keep the quote. This was because by WCAG and EN 301 549 standard all information on an application needs to be present through all screen sizes.
+- A decision that was made in the creation of this app was to add the quote for wider (and landscape) screens even though the Figma design seemed to count on it being absent. Had this been a real product I would have brought forward the question why this difference between the designs existed. For this assignment I took for granted that it was not on purpose and opted to keep the quote. This was because by WCAG and EN 301 549 standard all information on an application needs to be present through all screen sizes.
 
 - Before a launch I would also suggest that some unit and e2e tests were added, to make sure everything works as expected and will continue to do so.
 
@@ -22,4 +22,4 @@
 
 - I would also opt to use another API for the quotes, preferably one that is not third party or at the very least I can control the contents of. The one used for this project contained a few quite troubling and outright threatening and/or offensive quotes that might hurt the brand if a user would be met by it.
 
-- A last disclaimer is that I am a React and Vue developer. This was my first time building in Angular. Meaning I had to understand the framework before I could build the app. Had this been a proper product that was meant for lauch I would probably spend a bit more time on making sure the Angular syntax was up to standard.
+- A last disclaimer is that I am a React and Vue developer. This was my first time building in Angular. Meaning I had to understand the framework before I could build the app. Had this been a proper product that was meant for launch I would probably spend a bit more time on making sure the Angular syntax was up to standard.
